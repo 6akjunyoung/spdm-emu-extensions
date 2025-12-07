@@ -41,16 +41,18 @@ git submodule update --init --recursive
 
 자세한 빌드 방법은 [BUILD.md](BUILD.md)를 참조하세요.
 
-기본 빌드:
+**Root repo에서 통합 빌드** (spdm-emu submodule은 수정하지 않음):
 
 ```bash
-cd spdm-emu
+# 프로젝트 루트에서
 mkdir build
 cd build
 cmake -DARCH=x64 -DTOOLCHAIN=GCC -DTARGET=Debug -DCRYPTO=mbedtls ..
 make copy_sample_key
 make
 ```
+
+이렇게 하면 spdm-emu와 extensions가 함께 빌드되고, extensions가 자동으로 spdm-emu executables에 링크됩니다.
 
 ### 3. 확장 기능 추가
 
@@ -64,7 +66,8 @@ make
    - `spdm_<name>_get_secured_spdm_version()`
    - `spdm_transport_<name>_encode_message()`
    - `spdm_transport_<name>_decode_message()`
-4. `spdm-emu/CMakeLists.txt`에 라이브러리 추가
+4. `extensions/CMakeLists.txt`에 `add_subdirectory(transport_layers/spdm_transport_<name>_lib)` 추가
+5. `CMakeLists.txt`의 `link_extensions_to_spdm_emu()` 함수에서 `EXTENSIONS_LIBRARIES`에 라이브러리 이름 추가
 
 #### 테스트 케이스 추가
 

@@ -21,3 +21,8 @@ target_link_libraries(spdm_transport_example_lib
     spdm_secured_message_lib
 )
 
+# 이 라이브러리를 extensions 목록에 추가
+# 주의: 실제 사용 시에는 이 라인을 주석 처리하거나 제거하세요
+# set(EXTENSIONS_LIBRARIES ${EXTENSIONS_LIBRARIES} spdm_transport_example_lib PARENT_SCOPE)
+
+message(STATUS "Built extension library: spdm_transport_example_lib")
